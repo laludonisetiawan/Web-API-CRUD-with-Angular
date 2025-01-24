@@ -24,6 +24,10 @@ namespace Web_API_CRUD_with_Angular.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentDetail>>> GetPaymentDetails()
         {
+           if (_context.PaymentDetails == null)
+            {
+                return NotFound();
+            }
             return await _context.PaymentDetails.ToListAsync();
         }
 
@@ -31,14 +35,18 @@ namespace Web_API_CRUD_with_Angular.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(int id)
         {
-            var paymentDetail = await _context.PaymentDetails.FindAsync(id);
 
             if (paymentDetail == null)
             {
                 return NotFound();
             }
+            var paymentDetail = await _context.PaymentDetails.FindAsync(id);
+            if(paymentDetail == null)
+            {
+                return paymentDetail;
 
-            return paymentDetail;
+            }
+
         }
 
         // PUT: api/PaymentDetail/5
@@ -73,10 +81,13 @@ namespace Web_API_CRUD_with_Angular.Controllers
         }
 
         // POST: api/PaymentDetail
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {
+            if(_context.PaymentDetails == null)
+            {
+                return Problem("Entity set 'PaymentDetailContext.PaymentDetails' is null.")
+            }
             _context.PaymentDetails.Add(paymentDetail);
             await _context.SaveChangesAsync();
 
