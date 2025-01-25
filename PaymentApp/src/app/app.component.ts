@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PaymentDetailsComponent } from "./payment-details/payment-details.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, PaymentDetailsComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styles: [],
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'PaymentApp';
