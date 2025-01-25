@@ -36,16 +36,16 @@ namespace Web_API_CRUD_with_Angular.Controllers
         public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(int id)
         {
 
-            if (paymentDetail == null)
+            if (_context.PaymentDetails == null)
             {
                 return NotFound();
             }
             var paymentDetail = await _context.PaymentDetails.FindAsync(id);
             if(paymentDetail == null)
             {
-                return paymentDetail;
-
+                return NotFound();
             }
+            return paymentDetail;
 
         }
 
@@ -86,7 +86,7 @@ namespace Web_API_CRUD_with_Angular.Controllers
         {
             if(_context.PaymentDetails == null)
             {
-                return Problem("Entity set 'PaymentDetailContext.PaymentDetails' is null.")
+                return Problem("Entity set 'PaymentDetailContext.PaymentDetails' is null.");
             }
             _context.PaymentDetails.Add(paymentDetail);
             await _context.SaveChangesAsync();
