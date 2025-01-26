@@ -11,6 +11,7 @@ export class PaymentDetailService {
   url: string = environment.apiBaseUrl + '/PaymentDetail';
   formData: PaymentDetail = new PaymentDetail();
   list: PaymentDetail[] = [];
+  formSubmitted: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -32,5 +33,6 @@ export class PaymentDetailService {
   resetForm(form: NgForm) {
     form.form.reset();
     this.formData = new PaymentDetail();
+    this.formSubmitted = false;
   }
 }

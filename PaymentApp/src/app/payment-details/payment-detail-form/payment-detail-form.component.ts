@@ -10,18 +10,28 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./payment-detail-form.component.css'],
 })
 export class PaymentDetailFormComponent {
-  constructor(public service: PaymentDetailService, private toastr: ToastrService) {}
+  constructor(
+    public service: PaymentDetailService,
+    private toastr: ToastrService
+  ) {}
 
   onSubmit(form: NgForm) {
-    this.service.postPaymentDetail().subscribe({
-      next: (res) => {
-        this.service.list = res as PaymentDetail[];
-        this.service.resetForm(form);
-        this.toastr.success('Submitted successfully', 'Payment Detail Register');
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.service.formSubmitted = true;
+
+    if (form.valid) {
+      this.service.postPaymentDetail().subscribe({
+        next: (res) => {
+          this.service.list = res as PaymentDetail[];
+          this.service.resetForm(form);
+          this.toastr.success(
+            'Submitted successfully',
+            'Payment Detail Register'
+          );
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
   }
 }
