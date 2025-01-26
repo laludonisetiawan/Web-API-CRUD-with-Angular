@@ -31,6 +31,20 @@ namespace Web_API_CRUD_with_Angular.Controllers
             return await _context.PaymentDetails.ToListAsync();
         }
 
+        // POST: api/PaymentDetail
+        [HttpPost]
+        public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
+        {
+            if (_context.PaymentDetails == null)
+            {
+                return Problem("Entity set 'PaymentDetailContext.PaymentDetails' is null.");
+            }
+            _context.PaymentDetails.Add(paymentDetail);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.PaymentDetails.ToListAsync());
+        }
+
         // GET: api/PaymentDetail/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentDetail>> GetPaymentDetail(int id)
@@ -77,22 +91,10 @@ namespace Web_API_CRUD_with_Angular.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(await _context.PaymentDetails.ToListAsync());
         }
 
-        // POST: api/PaymentDetail
-        [HttpPost]
-        public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
-        {
-            if(_context.PaymentDetails == null)
-            {
-                return Problem("Entity set 'PaymentDetailContext.PaymentDetails' is null.");
-            }
-            _context.PaymentDetails.Add(paymentDetail);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPaymentDetail", new { id = paymentDetail.PaymentDetailID }, paymentDetail);
-        }
+        
 
         // DELETE: api/PaymentDetail/5
         [HttpDelete("{id}")]
@@ -107,7 +109,8 @@ namespace Web_API_CRUD_with_Angular.Controllers
             _context.PaymentDetails.Remove(paymentDetail);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(await _context.PaymentDetails.ToListAsync()); 
+            
         }
 
         private bool PaymentDetailExists(int id)
